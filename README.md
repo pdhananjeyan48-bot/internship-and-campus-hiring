@@ -150,3 +150,38 @@ def apply(job_id):
     """
 if __name__ == "__main__":
     app.run(debug=True)
+@app.route("/applications")
+def view_applications():
+    if not applications:
+        message = "<h3>No applications submitted yet.</h3>"
+    else:
+        message = ""
+        for application in applications:
+            message += f"""
+            <div>
+                <h2>{application['role']}</h2>
+                <p>Company: {application['company']}</p>
+                <p>Name: {application['name']}</p>
+                <p>Email: {application['email']}</p>
+                <p>College: {application['college']}</p>
+                <p>Status: {application['status']}</p>
+                <hr>
+            </div>
+            """
+    return f"""
+    <html>
+    <head>
+        <title>My Applications</title>
+    </head>
+    <body>
+        <h1>My Applications</h1>
+        {message}
+        <br>
+        <a href="/">
+            <button>Back to Internships</button>
+        </a>
+    </body>
+    </html>
+    """
+if __name__ == "__main__":
+    app.run(debug=True)
