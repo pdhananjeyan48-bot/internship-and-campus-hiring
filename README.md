@@ -29,3 +29,12 @@ def logout():
         ui.label(
             "Login"
         ).classes("text-2xl")
+email = ui.input(
+            "Email"
+        ).classes("w-80")
+        password = ui.input(
+            "Password",
+            password=True
+        ).classes("w-80")
+        def login():
+            global current_user
