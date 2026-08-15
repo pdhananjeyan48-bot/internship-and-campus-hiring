@@ -200,3 +200,29 @@ def recruiter_page():
         ui.label(
             "Recruiter Dashboard"
         ).classes("text-3xl font-bold")
+        ui.label(
+            "Welcome, " + current_user[1]
+        ).classes("text-xl")
+        ui.button(
+            "Logout",
+            on_click=logout
+        )
+        ui.separator()
+        ui.label(
+            "Post Internship"
+        ).classes("text-2xl font-bold")
+        company = ui.input(
+            "Company Name"
+        ).classes("w-80")
+        role = ui.input(
+            "Job Role"
+        ).classes("w-80")
+        location = ui.input(
+            "Location"
+        ).classes("w-80")
+        duration = ui.input(
+            "Duration"
+        ).classes("w-80")
+        skills = ui.input(
+            "Required Skills"
+        ).classes("w-80")
