@@ -226,3 +226,97 @@ def recruiter_page():
         skills = ui.input(
             "Required Skills"
         ).classes("w-80")
+        def post_internship():
+            if not company.value or not role.value:
+                ui.notify(
+                    "Enter company and job role",
+                    type="negative"
+                )
+                return
+            add_internship(
+                current_user[0],
+                company.value,
+                role.value,
+                location.value,
+                duration.value,
+                skills.value
+            )
+            ui.notify(
+                "Internship posted successfully"
+            )
+            company.value = ""
+            role.value = ""
+            location.value = ""
+            duration.value = ""
+            skills.value = ""
+        ui.button(
+            "Post Internship",
+            on_click=post_internship
+        )
+        ui.separator()
+        ui.label(
+            "Applicants"
+        ).classes("text-2xl font-bold")
+        applicants = get_applicants(
+            current_user[0]
+        )
+        if not applicants:
+            ui.label(
+                "No applicants yet"
+            )
+        for applicant in applicants:
+            with ui.card().classes("w-96"):
+                ui.label(
+                    "Student: " + applicant[0]
+                )
+                ui.label(
+                    "Email: " + applicant[1]
+                )
+                ui.label(
+                    "Company: " + applicant[2]
+                )
+                ui.label(
+                    "Role: " + applicant[3]
+                )
+                ui.label(
+                    "Status: " + applicant[4]
+                )
+def admin_page():
+    clear_page()
+    with content:
+        ui.label(
+            "Admin Dashboard"
+        ).classes("text-3xl font-bold")
+        ui.label(
+            "Administrator"
+        ).classes("text-xl")
+        ui.button(
+            "Logout",
+            on_click=logout
+        )
+        ui.separator()
+        ui.label(
+            "Registered Users"
+        ).classes("text-2xl font-bold")
+        con = connect()
+        users = con.execute("""
+            SELECT name, email, role
+            FROM users
+        """).fetchall()
+        con.close()
+        for user in users:
+            with ui.card().classes("w-96"):
+                ui.label(
+                    "Name: " + user[0]
+                )
+                ui.label(
+                    "Email: " + user[1]
+                )
+                ui.label(
+                    "Role: " + user[2]
+                )
+login_page()
+ui.run(
+    host="127.0.0.1",
+    port=8080
+)
