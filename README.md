@@ -83,3 +83,16 @@ def register_page():
             value="Student",
             label="Account Type"
         ).classes("w-80")
+        def register():
+            if not name.value or not email.value or not password.value:
+                ui.notify(
+                    "Please fill all fields",
+                    type="negative"
+                )
+                return
+            result = register_user(
+                name.value,
+                email.value,
+                password.value,
+                role.value
+            )
