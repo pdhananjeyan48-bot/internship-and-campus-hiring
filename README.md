@@ -74,3 +74,12 @@ def register_page():
         email = ui.input(
             "Email"
         ).classes("w-80")
+        password = ui.input(
+            "Password",
+            password=True
+        ).classes("w-80")
+        role = ui.select(
+            ["Student", "Recruiter"],
+            value="Student",
+            label="Account Type"
+        ).classes("w-80")
