@@ -132,3 +132,15 @@ def student_page():
             "Available Internships"
         ).classes("text-2xl font-bold")
         internships = get_internships()
+        if not internships:
+            ui.label(
+                "No internships available"
+            )
+        for internship in internships:
+            with ui.card().classes("w-96"):
+                ui.label(
+                    internship[2]
+                ).classes("text-xl font-bold")
+                ui.label(
+                    "Company: " + internship[1]
+                )
