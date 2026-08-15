@@ -54,3 +54,13 @@ email = ui.input(
                 current_user = user
                 if user[3] == "Student":
                     student_page()
+                    ui.button(
+            "Login",
+            on_click=login
+        )
+        ui.button(
+            "Create New Account",
+            on_click=register_page
+        )
+def register_page():
+    clear_page()
