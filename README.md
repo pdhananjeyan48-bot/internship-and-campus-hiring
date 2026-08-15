@@ -156,3 +156,17 @@ def student_page():
                 ui.label(
                     "Company: " + internship[1]
                 )
+                if result:
+                        ui.notify(
+                            "Application submitted successfully"
+                        )
+                    else:
+                        ui.notify(
+                            "You already applied",
+                            type="warning"
+                        )
+                ui.button(
+                    "Apply Now",
+                    on_click=apply
+                )
+        ui.separator()
