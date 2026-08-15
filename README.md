@@ -38,3 +38,11 @@ email = ui.input(
         ).classes("w-80")
         def login():
             global current_user
+            user = login_user(
+                email.value,
+                password.value
+            )
+            if user:
+                current_user = user
+                if user[3] == "Student":
+                    student_page()
