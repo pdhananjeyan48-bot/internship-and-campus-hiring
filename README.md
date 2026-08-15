@@ -144,3 +144,15 @@ def student_page():
                 ui.label(
                     "Company: " + internship[1]
                 )
+                if not internships:
+            ui.label(
+                "No internships available"
+            )
+        for internship in internships:
+            with ui.card().classes("w-96"):
+                ui.label(
+                    internship[2]
+                ).classes("text-xl font-bold")
+                ui.label(
+                    "Company: " + internship[1]
+                )
