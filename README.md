@@ -1,4 +1,4 @@
-#internship and campus hiring platform
+#Internship And Campus Hiring Platform
 #app.py
 from nicegui import ui
 from database import create_database, connect
