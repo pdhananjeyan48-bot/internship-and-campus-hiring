@@ -185,3 +185,18 @@ def student_page():
                 ui.label(
                     "Company: " + application[0]
                 )
+                ui.label(
+                    "Role: " + application[1]
+                )
+                ui.label(
+                    "Location: " + application[2]
+                )
+                ui.label(
+                    "Status: " + application[3]
+                )
+def recruiter_page():
+    clear_page()
+    with content:
+        ui.label(
+            "Recruiter Dashboard"
+        ).classes("text-3xl font-bold")
