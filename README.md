@@ -46,3 +46,11 @@ email = ui.input(
                 current_user = user
                 if user[3] == "Student":
                     student_page()
+                    user = login_user(
+                email.value,
+                password.value
+            )
+            if user:
+                current_user = user
+                if user[3] == "Student":
+                    student_page()
