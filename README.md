@@ -96,3 +96,17 @@ def register_page():
                 password.value,
                 role.value
             )
+            if result:
+                ui.notify(
+                    "Registration successful"
+                )
+                login_page()
+            else:
+                ui.notify(
+                    "Email already registered",
+                    type="negative"
+                )
+        ui.button(
+            "Register",
+            on_click=register
+        )
