@@ -7,3 +7,7 @@ current_user = None
 content = ui.column().classes("w-full items-center")
 def clear_page():
     content.clear()
+def logout():
+    global current_user
+    current_user = None
+    login_page()
