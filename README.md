@@ -120,3 +120,15 @@ def student_page():
         ui.label(
             "Student Dashboard"
         ).classes("text-3xl font-bold")
+        ui.label(
+            "Welcome, " + current_user[1]
+        ).classes("text-xl")
+        ui.button(
+            "Logout",
+            on_click=logout
+        )
+        ui.separator()
+        ui.label(
+            "Available Internships"
+        ).classes("text-2xl font-bold")
+        internships = get_internships()
