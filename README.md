@@ -110,3 +110,13 @@ def register_page():
             "Register",
             on_click=register
         )
+        ui.button(
+            "Back to Login",
+            on_click=login_page
+        )
+def student_page():
+    clear_page()
+    with content:
+        ui.label(
+            "Student Dashboard"
+        ).classes("text-3xl font-bold")
