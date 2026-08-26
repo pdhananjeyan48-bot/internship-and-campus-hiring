@@ -321,3 +321,24 @@ ui.run(
     host="127.0.0.1",
     port=8080
 )
+#auth.py
+from database import connect, hash_password
+
+def register_user(name, email, password, role):
+    con = connect()
+    try:
+        con.execute("""
+            INSERT INTO users(name,email,password,role)
+            VALUES(?,?,?,?)
+        """, (
+            name,
+            email,
+            hash_password(password),
+            role
+        ))
+        con.commit()
+        return True
+    except:
+        return False
+    finally:
+        con.close()
