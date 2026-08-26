@@ -354,3 +354,23 @@ def register_user(name, email, password, role):
     )).fetchone()
     con.close()
     return user
+    #database.py
+    import sqlite3
+import hashlib
+DATABASE = "internship.db"
+def connect():
+    return sqlite3.connect(DATABASE)
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+def create_database():
+    con = connect()
+    cur = con.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS users(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            email TEXT UNIQUE,
+            password TEXT,
+            role TEXT
+        )
+    """)
