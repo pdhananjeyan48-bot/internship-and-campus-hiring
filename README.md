@@ -410,4 +410,28 @@ def create_database():
     con.commit()
     con.close()
     #recruiter.py
+    from database import connect
+def add_internship(
+    recruiter_id,
+    company,
+    role,
+    location,
+    duration,
+    skills
+):
+    con = connect()
+    con.execute("""
+        INSERT INTO internships
+        (recruiter_id,company,role,location,duration,skills)
+        VALUES(?,?,?,?,?,?)
+    """, (
+        recruiter_id,
+        company,
+        role,
+        location,
+        duration,
+        skills
+    ))
+    con.commit()
+    con.close()
     
