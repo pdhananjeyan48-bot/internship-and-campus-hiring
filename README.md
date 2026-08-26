@@ -374,3 +374,22 @@ def create_database():
             role TEXT
         )
     """)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS internships(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            recruiter_id INTEGER,
+            company TEXT,
+            role TEXT,
+            location TEXT,
+            duration TEXT,
+            skills TEXT
+        )
+    """)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS applications(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id INTEGER,
+            internship_id INTEGER,
+            status TEXT
+        )
+    """)
