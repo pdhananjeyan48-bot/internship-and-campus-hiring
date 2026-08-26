@@ -434,4 +434,21 @@ def add_internship(
     ))
     con.commit()
     con.close()
+    def get_applicants(recruiter_id):
+    con = connect()
+    data = con.execute("""
+        SELECT users.name,
+               users.email,
+               internships.company,
+               internships.role,
+               applications.status
+        FROM applications
+        JOIN users
+        ON applications.student_id=users.id
+        JOIN internships
+        ON applications.internship_id=internships.id
+        WHERE internships.recruiter_id=?
+    """, (recruiter_id,)).fetchall()
+    con.close()
+    return data
     
