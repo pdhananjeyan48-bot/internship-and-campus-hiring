@@ -342,3 +342,15 @@ def register_user(name, email, password, role):
         return False
     finally:
         con.close()
+        def login_user(email, password):
+    con = connect()
+    user = con.execute("""
+        SELECT id,name,email,role
+        FROM users
+        WHERE email=? AND password=?
+    """, (
+        email,
+        hash_password(password)
+    )).fetchone()
+    con.close()
+    return user
