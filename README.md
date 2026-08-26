@@ -393,3 +393,19 @@ def create_database():
             status TEXT
         )
     """)
+    admin = cur.execute(
+        "SELECT id FROM users WHERE email=?",
+        ("admin@gmail.com",)
+    ).fetchone()
+    if not admin:
+        cur.execute("""
+            INSERT INTO users(name,email,password,role)
+            VALUES(?,?,?,?)
+        """, (
+            "Admin",
+            "admin@gmail.com",
+            hash_password("admin123"),
+            "Admin"
+        ))
+    con.commit()
+    con.close()
