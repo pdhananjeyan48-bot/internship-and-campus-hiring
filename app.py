@@ -195,3 +195,73 @@ def student_page():
                 ui.label(
                     "Status: " + application[3]
                 )
+                def recruiter_page():
+    clear_page()
+    with content:
+        ui.label(
+            "Recruiter Dashboard"
+        ).classes("text-3xl font-bold")
+        ui.label(
+            "Welcome, " + current_user[1]
+        ).classes("text-xl")
+        ui.button(
+            "Logout",
+            on_click=logout
+        )
+        ui.separator()
+        ui.label(
+            "Post Internship"
+        ).classes("text-2xl font-bold")
+        company = ui.input(
+            "Company Name"
+        ).classes("w-80")
+        role = ui.input(
+            "Job Role"
+        ).classes("w-80")
+        location = ui.input(
+            "Location"
+        ).classes("w-80")
+        duration = ui.input(
+            "Duration"
+        ).classes("w-80")
+        skills = ui.input(
+            "Required Skills"
+        ).classes("w-80")
+        def post_internship():
+            if not company.value or not role.value:
+                ui.notify(
+                    "Enter company and job role",
+                    type="negative"
+                )
+                return
+            add_internship(
+                current_user[0],
+                company.value,
+                role.value,
+                location.value,
+                duration.value,
+                skills.value
+            )
+            ui.notify(
+                "Internship posted successfully"
+            )
+            company.value = ""
+            role.value = ""
+            location.value = ""
+            duration.value = ""
+            skills.value = ""
+        ui.button(
+            "Post Internship",
+            on_click=post_internship
+        )
+        ui.separator()
+        ui.label(
+            "Applicants"
+        ).classes("text-2xl font-bold")
+        applicants = get_applicants(
+            current_user[0]
+        )
+        if not applicants:
+            ui.label(
+                "No applicants yet"
+            )
