@@ -113,3 +113,60 @@ def register():
             "Back to Login",
             on_click=login_page
         )
+def student_page():
+    clear_page()
+    with content:
+        ui.label(
+            "Student Dashboard"
+        ).classes("text-3xl font-bold")
+        ui.label(
+            "Welcome, " + current_user[1]
+        ).classes("text-xl")
+        ui.button(
+            "Logout",
+            on_click=logout
+        )
+        ui.separator()
+        ui.label(
+            "Available Internships"
+        ).classes("text-2xl font-bold")
+        internships = get_internships()
+        if not internships:
+            ui.label(
+                "No internships available"
+            )
+            for internship in internships:
+            with ui.card().classes("w-96"):
+                ui.label(
+                    internship[2]
+                ).classes("text-xl font-bold")
+                ui.label(
+                    "Company: " + internship[1]
+                )
+                ui.label(
+                    "Location: " + internship[3]
+                )
+                ui.label(
+                    "Duration: " + internship[4]
+                )
+                ui.label(
+                    "Skills: " + internship[5]
+                )
+                def apply(i=internship[0]):
+                    result = apply_internship(
+                        current_user[0],
+                        i
+                    )
+                    if result:
+                        ui.notify(
+                            "Application submitted successfully"
+                        )
+                    else:
+                        ui.notify(
+                            "You already applied",
+                            type="warning"
+                        )
+                ui.button(
+                    "Apply Now",
+                    on_click=apply
+                )
