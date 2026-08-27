@@ -61,4 +61,24 @@ def login_page():
             "Create New Account",
             on_click=register_page
         )
-        
+        def register_page():
+    clear_page()
+    with content:
+        ui.label(
+            "Create Account"
+        ).classes("text-3xl font-bold")
+        name = ui.input(
+            "Full Name"
+        ).classes("w-80")
+        email = ui.input(
+            "Email"
+        ).classes("w-80")
+        password = ui.input(
+            "Password",
+            password=True
+        ).classes("w-80")
+        role = ui.select(
+            ["Student", "Recruiter"],
+            value="Student",
+            label="Account Type"
+        ).classes("w-80")
