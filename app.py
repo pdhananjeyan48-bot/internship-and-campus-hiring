@@ -82,3 +82,34 @@ def login_page():
             value="Student",
             label="Account Type"
         ).classes("w-80")
+def register():
+            if not name.value or not email.value or not password.value:
+                ui.notify(
+                    "Please fill all fields",
+                    type="negative"
+                )
+                return
+            result = register_user(
+                name.value,
+                email.value,
+                password.value,
+                role.value
+            )
+            if result:
+                ui.notify(
+                    "Registration successful"
+                )
+                login_page()
+            else:
+                ui.notify(
+                    "Email already registered",
+                    type="negative"
+                )
+        ui.button(
+            "Register",
+            on_click=register
+        )
+        ui.button(
+            "Back to Login",
+            on_click=login_page
+        )
