@@ -34,4 +34,31 @@ def login_page():
         password = ui.input(
             "Password",
             password=True
-        ).classes("w-80")
+        ).classes("w-80")def login():
+            global current_user
+            user = login_user(
+                email.value,
+                password.value
+            )
+            if user:
+                current_user = user
+                if user[3] == "Student":
+                    student_page()
+                elif user[3] == "Recruiter":
+                    recruiter_page()
+                else:
+                    admin_page()
+            else:
+                ui.notify(
+                    "Invalid email or password",
+                    type="negative"
+                )
+        ui.button(
+            "Login",
+            on_click=login
+        )
+        ui.button(
+            "Create New Account",
+            on_click=register_page
+        )
+        
