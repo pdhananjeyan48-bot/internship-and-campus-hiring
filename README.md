@@ -1,4 +1,4 @@
-Internship and Campus Hiring Platform
+INTERNSHIP AND CAMPUS HIRING PLATFORM
 PROJECT REVIEW
 The Internship and Campus Hiring Platform is a Python-based web application designed to connect students with internship opportunities and help recruiters manage internship applications
 The system provides multi-user login with different roles such as Student, Recruiter, and Admin. Each user gets access to features according to their role.
