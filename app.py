@@ -265,3 +265,59 @@ def student_page():
             ui.label(
                 "No applicants yet"
             )
+            for applicant in applicants:
+            with ui.card().classes("w-96"):
+                ui.label(
+                    "Student: " + applicant[0]
+                )
+                ui.label(
+                    "Email: " + applicant[1]
+                )
+                ui.label(
+                    "Company: " + applicant[2]
+                )
+                ui.label(
+                    "Role: " + applicant[3]
+                )
+                ui.label(
+                    "Status: " + applicant[4]
+                )
+def admin_page():
+    clear_page()
+    with content:
+        ui.label(
+            "Admin Dashboard"
+        ).classes("text-3xl font-bold")
+        ui.label(
+            "Administrator"
+        ).classes("text-xl")
+        ui.button(
+            "Logout",
+            on_click=logout
+        )
+        ui.separator()
+        ui.label(
+            "Registered Users"
+        ).classes("text-2xl font-bold")
+        con = connect()
+        users = con.execute("""
+            SELECT name, email, role
+            FROM users
+        """).fetchall()
+        con.close()
+        for user in users:
+            with ui.card().classes("w-96"):
+                ui.label(
+                    "Name: " + user[0]
+                )
+                ui.label(
+                    "Email: " + user[1]
+                )
+                ui.label(
+                    "Role: " + user[2]
+                )
+login_page()
+ui.run(
+    host="127.0.0.1",
+    port=8080
+)
