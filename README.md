@@ -1,497 +1,114 @@
-#Internship And Campus Hiring Platform
-#App.py
-from nicegui import ui
-from database import create_database, connect
-from auth import register_user, login_user
-from students import (
-    get_internships,
-    apply_internship,
-    get_applications
-)
-from recruiter import (
-    add_internship,
-    get_applicants
-)
-create_database()
-current_user = None
-content = ui.column().classes("w-full items-center")
-def clear_page():
-    content.clear()
-def logout():
-    global current_user
-    current_user = None``
-    login_page()
-    def login_page():
-    clear_page()
-    with content:
-        ui.label(
-            "Internship and Campus Hiring Platform"
-        ).classes("text-3xl font-bold")
-        ui.label(
-            "Login"
-        ).classes("text-2xl")
-email = ui.input(
-            "Email"
-        ).classes("w-80")
-        password = ui.input(
-            "Password",
-            password=True
-        ).classes("w-80")
-        def login():
-            global current_user
-            user = login_user(
-                email.value,
-                password.value
-            )
-            if user:
-                current_user = user
-                if user[3] == "Student":
-                    student_page()
-                    user = login_user(
-                email.value,
-                password.value
-            )
-            if user:
-                current_user = user
-                if user[3] == "Student":
-                    student_page()
-                    ui.button(
-            "Login",
-            on_click=login
-        )
-        ui.button(
-            "Create New Account",
-            on_click=register_page
-        )
-def register_page():
-    clear_page()
-    with content:
-        ui.label(
-            "Create Account"
-        ).classes("text-3xl font-bold")
-        name = ui.input(
-            "Full Name"
-        ).classes("w-80")
-        email = ui.input(
-            "Email"
-        ).classes("w-80")
-        password = ui.input(
-            "Password",
-            password=True
-        ).classes("w-80")
-        role = ui.select(
-            ["Student", "Recruiter"],
-            value="Student",
-            label="Account Type"
-        ).classes("w-80")
-        def register():
-            if not name.value or not email.value or not password.value:
-                ui.notify(
-                    "Please fill all fields",
-                    type="negative"
-                )
-                return
-            result = register_user(
-                name.value,
-                email.value,
-                password.value,
-                role.value
-            )
-            if result:
-                ui.notify(
-                    "Registration successful"
-                )
-                login_page()
-            else:
-                ui.notify(
-                    "Email already registered",
-                    type="negative"
-                )
-        ui.button(
-            "Register",
-            on_click=register
-        )
-        ui.button(
-            "Back to Login",
-            on_click=login_page
-        )
-def student_page():
-    clear_page()
-    with content:
-        ui.label(
-            "Student Dashboard"
-        ).classes("text-3xl font-bold")
-        ui.label(
-            "Welcome, " + current_user[1]
-        ).classes("text-xl")
-        ui.button(
-            "Logout",
-            on_click=logout
-        )
-        ui.separator()
-        ui.label(
-            "Available Internships"
-        ).classes("text-2xl font-bold")
-        internships = get_internships()
-        if not internships:
-            ui.label(
-                "No internships available"
-            )
-        for internship in internships:
-            with ui.card().classes("w-96"):
-                ui.label(
-                    internship[2]
-                ).classes("text-xl font-bold")
-                ui.label(
-                    "Company: " + internship[1]
-                )
-                if not internships:
-            ui.label(
-                "No internships available"
-            )
-        for internship in internships:
-            with ui.card().classes("w-96"):
-                ui.label(
-                    internship[2]
-                ).classes("text-xl font-bold")
-                ui.label(
-                    "Company: " + internship[1]
-                )
-                if result:
-                        ui.notify(
-                            "Application submitted successfully"
-                        )
-                    else:
-                        ui.notify(
-                            "You already applied",
-                            type="warning"
-                        )
-                ui.button(
-                    "Apply Now",
-                    on_click=apply
-                )
-        ui.separator()
-        ui.label(
-            "My Applications"
-        ).classes("text-2xl font-bold")
-        applications = get_applications(
-            current_user[0]
-        )
-        if not applications:
-            ui.label(
-                "No applications yet"
-            )
-        for application in applications:
-            with ui.card().classes("w-96"):
-                ui.label(
-                    "Company: " + application[0]
-                )
-                ui.label(
-                    "Role: " + application[1]
-                )
-                ui.label(
-                    "Location: " + application[2]
-                )
-                ui.label(
-                    "Status: " + application[3]
-                )
-def recruiter_page():
-    clear_page()
-    with content:
-        ui.label(
-            "Recruiter Dashboard"
-        ).classes("text-3xl font-bold")
-        ui.label(
-            "Welcome, " + current_user[1]
-        ).classes("text-xl")
-        ui.button(
-            "Logout",
-            on_click=logout
-        )
-        ui.separator()
-        ui.label(
-            "Post Internship"
-        ).classes("text-2xl font-bold")
-        company = ui.input(
-            "Company Name"
-        ).classes("w-80")
-        role = ui.input(
-            "Job Role"
-        ).classes("w-80")
-        location = ui.input(
-            "Location"
-        ).classes("w-80")
-        duration = ui.input(
-            "Duration"
-        ).classes("w-80")
-        skills = ui.input(
-            "Required Skills"
-        ).classes("w-80")
-        def post_internship():
-            if not company.value or not role.value:
-                ui.notify(
-                    "Enter company and job role",
-                    type="negative"
-                )
-                return
-            add_internship(
-                current_user[0],
-                company.value,
-                role.value,
-                location.value,
-                duration.value,
-                skills.value
-            )
-            ui.notify(
-                "Internship posted successfully"
-            )
-            company.value = ""
-            role.value = ""
-            location.value = ""
-            duration.value = ""
-            skills.value = ""
-        ui.button(
-            "Post Internship",
-            on_click=post_internship
-        )
-        ui.separator()
-        ui.label(
-            "Applicants"
-        ).classes("text-2xl font-bold")
-        applicants = get_applicants(
-            current_user[0]
-        )
-        if not applicants:
-            ui.label(
-                "No applicants yet"
-            )
-        for applicant in applicants:
-            with ui.card().classes("w-96"):
-                ui.label(
-                    "Student: " + applicant[0]
-                )
-                ui.label(
-                    "Email: " + applicant[1]
-                )
-                ui.label(
-                    "Company: " + applicant[2]
-                )
-                ui.label(
-                    "Role: " + applicant[3]
-                )
-                ui.label(
-                    "Status: " + applicant[4]
-                )
-def admin_page():
-    clear_page()
-    with content:
-        ui.label(
-            "Admin Dashboard"
-        ).classes("text-3xl font-bold")
-        ui.label(
-            "Administrator"
-        ).classes("text-xl")
-        ui.button(
-            "Logout",
-            on_click=logout
-        )
-        ui.separator()
-        ui.label(
-            "Registered Users"
-        ).classes("text-2xl font-bold")
-        con = connect()
-        users = con.execute("""
-            SELECT name, email, role
-            FROM users
-        """).fetchall()
-        con.close()
-        for user in users:
-            with ui.card().classes("w-96"):
-                ui.label(
-                    "Name: " + user[0]
-                )
-                ui.label(
-                    "Email: " + user[1]
-                )
-                ui.label(
-                    "Role: " + user[2]
-                )
-login_page()
-ui.run(
-    host="127.0.0.1",
-    port=8080
-)
-#auth.py
-from database import connect, hash_password
-
-def register_user(name, email, password, role):
-    con = connect()
-    try:
-        con.execute("""
-            INSERT INTO users(name,email,password,role)
-            VALUES(?,?,?,?)
-        """, (
-            name,
-            email,
-            hash_password(password),
-            role
-        ))
-        con.commit()
-        return True
-    except:
-        return False
-    finally:
-        con.close()
-        def login_user(email, password):
-    con = connect()
-    user = con.execute("""
-        SELECT id,name,email,role
-        FROM users
-        WHERE email=? AND password=?
-    """, (
-        email,
-        hash_password(password)
-    )).fetchone()
-    con.close()
-    return user
-    #database.py
-    import sqlite3
-import hashlib
-DATABASE = "internship.db"
-def connect():
-    return sqlite3.connect(DATABASE)
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
-def create_database():
-    con = connect()
-    cur = con.cursor()
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS users(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            email TEXT UNIQUE,
-            password TEXT,
-            role TEXT
-        )
-    """)
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS internships(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            recruiter_id INTEGER,
-            company TEXT,
-            role TEXT,
-            location TEXT,
-            duration TEXT,
-            skills TEXT
-        )
-    """)
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS applications(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            student_id INTEGER,
-            internship_id INTEGER,
-            status TEXT
-        )
-    """)
-    admin = cur.execute(
-        "SELECT id FROM users WHERE email=?",
-        ("admin@gmail.com",)
-    ).fetchone()
-    if not admin:
-        cur.execute("""
-            INSERT INTO users(name,email,password,role)
-            VALUES(?,?,?,?)
-        """, (
-            "Admin",
-            "admin@gmail.com",
-            hash_password("admin123"),
-            "Admin"
-        ))
-    con.commit()
-    con.close()
-    #recruiter.py
-    from database import connect
-def add_internship(
-    recruiter_id,
-    company,
-    role,
-    location,
-    duration,
-    skills
-):
-    con = connect()
-    con.execute("""
-        INSERT INTO internships
-        (recruiter_id,company,role,location,duration,skills)
-        VALUES(?,?,?,?,?,?)
-    """, (
-        recruiter_id,
-        company,
-        role,
-        location,
-        duration,
-        skills
-    ))
-    con.commit()
-    con.close()
-    def get_applicants(recruiter_id):
-    con = connect()
-    data = con.execute("""
-        SELECT users.name,
-               users.email,
-               internships.company,
-               internships.role,
-               applications.status
-        FROM applications
-        JOIN users
-        ON applications.student_id=users.id
-        JOIN internships
-        ON applications.internship_id=internships.id
-        WHERE internships.recruiter_id=?
-    """, (recruiter_id,)).fetchall()
-    con.close()
-    return data
-    def login_page():
-    clear_page()
-    with content:
-        ui.label(
-            "Internship and Campus Hiring Platform"
-        ).classes("text-3xl font-bold")
-        ui.label(
-            "Login"
-        ).classes("text-2xl")
-        email = ui.input(
-            "Email"
-        ).classes("w-80")
-        password = ui.input(
-            "Password",
-            password=True
-        ).classes("w-80")
-        def login():
-            global current_user
-            user = login_user(
-                email.value,
-                password.value
-            )
-            if user:
-                current_user = user
-                if user[3] == "Student":
-                    student_page()
-                elif user[3] == "Recruiter":
-                    recruiter_page()
-                else:
-                    admin_page()
-            else:
-                ui.notify(
-                    "Invalid email or password",
-                    type="negative"
-                )
-        ui.button(
-            "Login",
-            on_click=login
-        )
-        ui.button(
-            "Create New Account",
-            on_click=register_page
-        )
-    
+Internship and Campus Hiring Platform
+PROJECT REVIEW
+The Internship and Campus Hiring Platform is a Python-based web application designed to connect students with internship opportunities and help recruiters manage internship applications
+The system provides multi-user login with different roles such as Student, Recruiter, and Admin. Each user gets access to features according to their role.
+OBJECTIVES
+Provide a simple platform for students to find internships.
+Allow students to apply for available internships.
+Allow recruiters to post internship opportunities.
+Allow recruiters to view applicants.
+Provide secure user registration and login.
+Store user, internship, and application information in a database.
+USER ROLES
+Student
+Register and login
+View available internships
+Apply for internships
+View application status
+Recruiter
+Register and login
+Add internship opportunities
+View applicants
+Admin
+Login
+View/manage registered users
+TECHNOLOGIES USED
+Python
+NiceGUI – Frontend and web interface
+SQLite – Database
+VS Code – Development environment
+GitHub – Version control
+The project is developed using Python and NiceGUI without separate HTML files.
+PROJECT STRUCTURE
+Internship-And-Campus-Hiring-Platform/
+│
+├── app.py
+├── auth.py
+├── database.py
+├── students.py
+├── recruiter.py
+├── requirements.txt
+├── internship.db
+│
+└── diagrams/
+    ├── ER_Diagram.drawio
+    ├── System_Diagram.drawio
+    └── Architecture_Diagram.drawio
+MAIN MODULES
+File
+Description
+app.py
+Main application and user interface
+auth.py
+Registration and login
+database.py
+Database connection and tables
+students.py
+Student internship and application functions
+recruiter.py
+Internship posting and applicant functions
+internship.db
+SQLite database
+DATABASE
+The application uses SQLite to store:
+Users
+Internships
+Applications
+The main relationships are:
+Users
+  │
+  ├── Internships
+  │
+  └── Applications
+          │
+          └── Internships
+HOW TO RUN
+1. Install Python
+Make sure Python is installed on your computer.
+2. Open the project in VS Code
+Open the project folder in VS Code.
+3. Install the required library
+Open the VS Code terminal and run:
+python -m pip install -r requirements.txt
+4. Run the application
+python app.py
+5. Open the website
+Open the local address shown in the terminal, for example:
+http://127.0.0.1:8080
+   SYSTEM OVERFLOW
+User
+  ↓
+Register / Login
+  ↓
+Select User Role
+  ↓
+Student / Recruiter / Admin
+  ↓
+Role-Based Features
+  ↓
+SQLite Database
+   PROJECT DIAGRAMS
+The project includes:
+ER Diagram – Represents the database entities and relationships.
+System Diagram – Represents interaction between users and the platform.
+Architecture Diagram – Represents the structure of the Python modules and database.
+   FUTURE ENHANCEMENT
+Resume upload and management
+Internship search and filtering
+Email notifications
+Recruiter approval system
+Student profile management
+Application deadline notifications
+Improved admin dashboard
+ CONCLUSION
+The Internship and Campus Hiring Platform provides a simple and organized solution for managing internship opportunities and applications. The modular Python structure makes the project easy to understand, maintain, and extend.
