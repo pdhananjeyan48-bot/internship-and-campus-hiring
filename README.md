@@ -4,11 +4,11 @@ The Internship and Campus Hiring Platform is a Python-based web application desi
 The system provides multi-user login with different roles such as Student, Recruiter, and Admin. Each user gets access to features according to their role.
 OBJECTIVES
 Provide a simple platform for students to find internships.
-Allow students to apply for available internships.
-Allow recruiters to post internship opportunities.
-Allow recruiters to view applicants.
-Provide secure user registration and login.
-Store user, internship, and application information in a database.
+Allow students to apply for available internships
+Allow recruiters to post internship opportunities
+Allow recruiters to view applicants
+Provide secure user registration and login
+Store user, internship, and application information in a database
 USER ROLES
 Student
 Register and login
@@ -76,7 +76,7 @@ HOW TO RUN
 1. Install Python
 Make sure Python is installed on your computer.
 2. Open the project in VS Code
-Open the project folder in VS Code.
+Open the project folder in VS Code
 3. Install the required library
 Open the VS Code terminal and run:
 python -m pip install -r requirements.txt
@@ -99,9 +99,9 @@ Role-Based Features
 SQLite Database
    PROJECT DIAGRAMS
 The project includes:
-ER Diagram – Represents the database entities and relationships.
-System Diagram – Represents interaction between users and the platform.
-Architecture Diagram – Represents the structure of the Python modules and database.
+ER Diagram – Represents the database entities and relationships
+System Diagram – Represents interaction between users and the platform
+Architecture Diagram – Represents the structure of the Python modules and database
    FUTURE ENHANCEMENT
 Resume upload and management
 Internship search and filtering
@@ -111,4 +111,4 @@ Student profile management
 Application deadline notifications
 Improved admin dashboard
  CONCLUSION
-The Internship and Campus Hiring Platform provides a simple and organized solution for managing internship opportunities and applications. The modular Python structure makes the project easy to understand, maintain, and extend.
+The Internship and Campus Hiring Platform provides a simple and organized solution for managing internship opportunities and applications. The modular Python structure makes the project easy to understand, maintain, and extend
