@@ -19,3 +19,19 @@ def logout():
     global current_user
     current_user = None
     login_page()
+def login_page():
+    clear_page()
+    with content:
+        ui.label(
+            "Internship and Campus Hiring Platform"
+        ).classes("text-3xl font-bold")
+        ui.label(
+            "Login"
+        ).classes("text-2xl")
+        email = ui.input(
+            "Email"
+        ).classes("w-80")
+        password = ui.input(
+            "Password",
+            password=True
+        ).classes("w-80")
