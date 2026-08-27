@@ -170,3 +170,28 @@ def student_page():
                     "Apply Now",
                     on_click=apply
                 )
+                ui.separator()
+        ui.label(
+            "My Applications"
+        ).classes("text-2xl font-bold")
+        applications = get_applications(
+            current_user[0]
+        )
+        if not applications:
+            ui.label(
+                "No applications yet"
+            )
+        for application in applications:
+            with ui.card().classes("w-96"):
+                ui.label(
+                    "Company: " + application[0]
+                )
+                ui.label(
+                    "Role: " + application[1]
+                )
+                ui.label(
+                    "Location: " + application[2]
+                )
+                ui.label(
+                    "Status: " + application[3]
+                )
