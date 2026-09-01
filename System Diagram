@@ -1,1 +1,31 @@
 
+flowchart LR
+    Student(["Student"])
+    Recruiter(["Recruiter"])
+    Admin(["Admin"])
+    subgraph System["Internship & Campus Hiring Platform (NiceGUI System)"]
+        Register["Register / Login<br/>(auth.py)"]
+        ViewInternships["View Internships<br/>(students.py)"]
+        Apply["Apply to Internship<br/>(students.py)"]
+        Track["Track My Applications<br/>(students.py)"]
+        Post["Post Internship<br/>(recruiter.py)"]
+        Applicants["View Applicants<br/>(recruiter.py)"]
+        Users["View Registered Users<br/>(app.py - admin)"]
+    end
+    DB[("SQLite Database<br/>(internship.db)")]
+    Student --> Register
+    Student --> ViewInternships
+    Student --> Apply
+    Student --> Track
+    Recruiter --> Register
+    Recruiter --> Post
+    Recruiter --> Applicants
+    Admin --> Register
+    Admin --> Users
+    Register -.-> DB
+    ViewInternships -.-> DB
+    Apply -.-> DB
+    Track -.-> DB
+    Post -.-> DB
+    Applicants -.-> DB
+    Users -.-> DB
