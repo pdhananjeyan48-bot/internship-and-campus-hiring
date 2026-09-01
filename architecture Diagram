@@ -1,1 +1,25 @@
-
+flowchart TB
+    subgraph Client["Client Layer"]
+        Browser["Web Browser<br/>(renders NiceGUI frontend)"]
+    end
+    subgraph Presentation["Presentation Layer (NiceGUI)"]
+        App["app.py<br/>Login / Register / Student /<br/>Recruiter / Admin Pages"]
+    end
+    subgraph Business["Business Logic Layer"]
+        Auth["auth.py<br/>register_user()<br/>login_user()"]
+        Students["students.py<br/>get_internships()<br/>apply_internship()<br/>get_applications()"]
+        Recruiter["recruiter.py<br/>add_internship()<br/>get_applicants()"]
+    end
+    subgraph Data["Data Access Layer"]
+        Database["database.py<br/>connect()<br/>create_database()<br/>hash_password()"]
+    end
+    subgraph Storage["Storage Layer"]
+        SQLite[("internship.db<br/>users<br/>internships<br/>applications")]
+    end
+    App --> Auth
+    App --> Students
+    App --> Recruiter
+    Auth --> Database
+    Students --> Database
+    Recruiter --> Database
+    Database -->|"SQL (sqlite3)"| SQLite
