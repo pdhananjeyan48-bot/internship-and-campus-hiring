@@ -1,1 +1,29 @@
 
+  USERS {
+        INTEGER id PK
+        TEXT name
+        TEXT email UK
+        TEXT password
+        TEXT role
+    }
+
+    INTERNSHIPS {
+        INTEGER id PK
+        INTEGER recruiter_id FK
+        TEXT company
+        TEXT role
+        TEXT location
+        TEXT duration
+        TEXT skills
+    }
+
+    APPLICATIONS {
+        INTEGER id PK
+        INTEGER student_id FK
+        INTEGER internship_id FK
+        TEXT status
+    }
+
+    USERS ||--o{ INTERNSHIPS : "posts"
+    USERS ||--o{ APPLICATIONS : "applies"
+    INTERNSHIPS ||--o{ APPLICATIONS : "receives"
