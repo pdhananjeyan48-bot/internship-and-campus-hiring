@@ -1,31 +1,25 @@
-from database import connect, hash_password
+from database import create_user, verify_user
 def register_user(name, email, password, role):
-    con = connect()
-    try:
-        con.execute("""
-            INSERT INTO users(name,email,password,role)
-            VALUES(?,?,?,?)
-        """, (
-            name,
-            email,
-            hash_password(password),
-            role
-        ))
-        con.commit()
-        return True
-    except:
-        return False
-    finally:
-        con.close()
-def login_user(email, password):
-    con = connect()
-    user = con.execute("""
-        SELECT id,name,email,role
-        FROM users
-        WHERE email=? AND password=?
-    """, (
+    if not name.strip():
+        return False, "Enter your name."
+    if not email.strip():
+        return False, "Enter your email."
+    if "@" not in email:
+        return False, "Enter a valid email."
+    if len(password) < 4:
+        return False, "Password must contain at least 4 characters."
+    if role not in ["student", "recruiter"]:
+        return False, "Invalid account type."
+    return create_user(
+        name,
         email,
-        hash_password(password)
-    )).fetchone()
-    con.close()
-    return user
+        password,
+        role
+    )
+def login_user(email, password):
+    if not email.strip() or not password:
+        return None
+    return verify_user(
+        email,
+        password
+    )
