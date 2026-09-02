@@ -1,47 +1,57 @@
-from database import connect
-def add_internship(
+from database import (
+    add_internship,
+    delete_internship,
+    get_recruiter_applications,
+    update_application_status
+)
+def create_internship(
     recruiter_id,
     company,
     role,
     location,
     duration,
-    skills
+    skills,
+    description
 ):
-    db = connect()
-    db.execute(
-        """
-        INSERT INTO internships
-        (recruiter_id,company,role,location,duration,skills)
-        VALUES (?,?,?,?,?,?)
-        """,
-        (
-            recruiter_id,
-            company,
-            role,
-            location,
-            duration,
-            skills
-        )
+    fields = [
+        company,
+        role,
+        location,
+        duration,
+        skills
+    ]
+    for field in fields:
+        if not str(field).strip():
+            return False, "Please fill all required fields."
+    add_internship(
+        recruiter_id,
+        company.strip(),
+        role.strip(),
+        location.strip(),
+        duration.strip(),
+        skills.strip(),
+        description.strip()
     )
-    db.commit()
-    db.close()
+    return True, "Internship published successfully."
+def remove_internship(
+    internship_id,
+    recruiter_id
+):
+    return delete_internship(
+        internship_id,
+        recruiter_id
+    )
 def get_applicants(recruiter_id):
-    db = connect()
-    data = db.execute(
-        """
-        SELECT users.name,
-               users.email,
-               internships.company,
-               internships.role,
-               applications.status
-        FROM applications
-        JOIN users
-        ON applications.student_id=users.id
-        JOIN internships
-        ON applications.internship_id=internships.id
-        WHERE internships.recruiter_id=?
-        """,
-        (recruiter_id,)
-    ).fetchall()
-    db.close()
-    return data
+    return get_recruiter_applications(
+        recruiter_id
+    )
+def change_application_status(
+    application_id,
+    recruiter_id,
+    status
+):
+    return update_application_status(
+        application_id,
+        recruiter_id,
+        status
+    )
