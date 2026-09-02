@@ -1,52 +1,33 @@
-import sqlite3
-from database import connect
-def get_internships():
-    db = connect()
-    data = db.execute("""
-        SELECT id, recruiter_id, company, role,
-               location, duration, skills
-        FROM internships
-    """).fetchall()
-    db.close()
-    return data
+from database import (
+    get_all_internships,
+    apply_for_internship,
+    get_student_applications
+)
+def get_internships(search=""):
+    internships = get_all_internships()
+    search = search.strip().lower()
+    if not search:
+        return internships
+    result = []
+    for internship in internships:
+        text = (
+            internship["company"] +
+            " " +
+            internship["role"] +
+            " " +
+            internship["location"] +
+            " " +
+            internship["skills"]
+        ).lower()
+        if search in text:
+            result.append(internship)
+    return result
 def apply_internship(student_id, internship_id):
-    db = connect()
-    existing = db.execute("""
-        SELECT id
-        FROM applications
-        WHERE student_id=? AND internship_id=?
-    """, (
+    return apply_for_internship(
         student_id,
         internship_id
-    )).fetchone()
-    if existing:
-        db.close()
-        return False
-    db.execute("""
-        INSERT INTO applications
-        (student_id, internship_id, status)
-        VALUES (?, ?, ?)
-    """, (
-        student_id,
-        internship_id,
-        "Applied"
-    ))
-    db.commit()
-    db.close()
-    return True
+    )
 def get_applications(student_id):
-    db = connect()
-    data = db.execute("""
-        SELECT internships.company,
-               internships.role,
-               internships.location,
-               applications.status
-        FROM applications
-        JOIN internships
-        ON applications.internship_id = internships.id
-        WHERE applications.student_id = ?
-    """, (
-        student_id,
-    )).fetchall()
-    db.close()
-    return data
+    return get_student_applications(
+        student_id
+    )
